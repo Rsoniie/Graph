@@ -1,4 +1,4 @@
-**********USING LIST *****************
+**********USING LIST ***************** SC = O(N) ******* TC=O(N + 2E)**********
 //{ Driver Code Starts
 #include <bits/stdc++.h>
 using namespace std;
