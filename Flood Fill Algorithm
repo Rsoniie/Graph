@@ -1,0 +1,27 @@
+*****************USING DFS TRAVERSAL**** TC = O(4*N*M)   SC = O(N*M+N*M)  ************
+void dfs(int r, int c, int oc, int nc, int delrow[], int delcol[], vector<vector<int>> &image, vector<vector<int>>&ans)
+{
+    ans[r][c] = nc;
+    int n = image.size();
+    int m = image[0].size();
+    for(int i=0;i<4;i++)
+    {
+        int nrow = r+delrow[i];
+        int ncol = c+delcol[i];
+        if(nrow >=0 && nrow < n && ncol >=0 && ncol < m && ans[nrow][ncol] != nc && image[nrow][ncol] == oc)
+        {
+            dfs(nrow, ncol, oc, nc, delrow, delcol, image, ans);
+        }
+    }
+}
+vector<vector<int>> floodFill(vector<vector<int>> &image, int x, int y, int newColor)
+{
+    vector<vector<int>> ans;
+    ans = image;
+    int delrow[] = {-1, 0 , 1 , 0};
+    int delcol[] = {0, 1, 0, -1};
+    int ini = image[x][y];
+    //ans[x][y] = newColor;
+    dfs(x, y, ini, newColor, delrow, delcol, image, ans);
+    return ans;
+}
