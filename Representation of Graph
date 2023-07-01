@@ -1,0 +1,143 @@
+$$$$$$$$$$$$$$$$$$$$$$$$$ FOR UNDIRECTED GRAPH$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+********APPROACH 1 USING MATRIX*****************SC = O(N^2)********************
+# include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin>>n>>m; // n == no of nodes  m == no of edges..
+   // map<pair<int,int>, bool> mb;
+   vector<vector<int>> v(n+1, vector<int>(n+1, 0));
+    for(int i=0;i<m;i++)
+    {
+        int a, b;
+        cin>>a>>b;
+        v[a][b] = 1;
+        v[b][a] = 1;
+      
+    }
+    for(auto i:v)
+    {
+        for(auto j:i)
+        {
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+
+    
+}
+
+
+FOR WEIGHTED GRAPH PUT V[A][B]  & V[B][A] == WT INSTEAD OF 1
+
+
+-----------------------------------------------------------------
+**********APPROACH 2 USING ADJACENCY LIST SC = O(N) *********************
+# include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin>>n>>m; 
+    vector<int> adj[n+1];
+    for(int i=0;i<m;i++)
+    {
+        int u, v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    for(int i=0;i<n+1;i++)
+    {
+        cout<<i<<" ";
+        for(auto j:adj[i])
+        {
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+
+
+FOR WEIGHTED GRAPH PUT WEIGHTS IN PAIRS INSTEAD OF DIRECTLY PUTTING 
+
+VECTOR<PAIR<ITN, INT>> ADJ[N+1];
+
+
+
+
+$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$FOR DIRECTED GRAPH$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$
+
+*****************APPROACH 1 USING MATRIX**************************************************
+# include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin>>n>>m; // n == no of nodes  m == no of edges..
+   // map<pair<int,int>, bool> mb;
+   vector<vector<int>> v(n+1, vector<int>(n+1, 0));
+    for(int i=0;i<m;i++)
+    {
+        int a, b;
+        cin>>a>>b;
+        v[a][b] = 1;
+      
+    }
+    for(auto i:v)
+    {
+        for(auto j:i)
+        {
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+
+    
+}
+
+FOR WEIGHTED GRAPH PUT V[A][B] == WT INSTEAD OF 1
+
+
+=-----------------------------------------------------------------------------------
+*************APPROACH 2 USING LIST************** SC = O(E)*****************************
+
+
+# include<bits/stdc++.h>
+using namespace std;
+int main()
+{
+    int n, m;
+    cin>>n>>m; 
+    vector<int> adj[n+1];
+    for(int i=0;i<m;i++)
+    {
+        int u, v;
+        cin>>u>>v;
+        adj[u].push_back(v);
+    }
+
+    for(int i=0;i<n+1;i++)
+    {
+        cout<<i<<" ";
+        for(auto j:adj[i])
+        {
+            cout<<j<<" ";
+        }
+        cout<<endl;
+    }
+}
+
+
+FOR WEIGHTED GRAPH PUT WEIGHTS IN PAIRS INSTEAD OF DIRECTLY PUTTING 
+
+VECTOR<PAIR<ITN, INT>> ADJ[N+1];
+
+
+
+
+
+
