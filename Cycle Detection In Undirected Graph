@@ -1,0 +1,58 @@
+******************USING BFS TC=(N+2*E) SC= O(N+N)************************
+
+# include<bits/stdc++.h>
+bool detect(int src , vector<int> adj[], int vis[])
+{
+    vis[src] = 1;
+    queue<pair<int, int>> q;
+    q.push({src, -1});
+    while(!q.empty())
+    {
+        int node = q.front().first;
+        int par = q.front().second;
+        q.pop();
+        for(auto i:adj[node])
+        {
+            if(!vis[i])
+            {
+                vis[i] = 1;
+                q.push({i, node});
+            }
+            else if(par != i)
+            {
+                return true;
+            }
+        }
+    }
+
+    return false;
+}
+string cycleDetection (vector<vector<int>>& edges, int n, int m)
+{
+    vector<int> adj[n+1];
+  for(int i=0;i<m;i++)
+  {
+      int a = edges[i][0];
+      int b = edges[i][1];
+      adj[a].push_back(b);
+      adj[b].push_back(a);
+  }
+
+  int vis[n+1]={0};
+  for(int i=1;i<=n;i++)
+  {
+      if(!vis[i])
+      {
+          if(detect(i, adj, vis))
+          {
+              return "Yes";
+          }
+      }
+  }
+
+  return "No";
+
+
+
+
+}
