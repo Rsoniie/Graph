@@ -1,0 +1,37 @@
+************USING BFS AND SET******TC = O(5*N*M*LOG(N*M) ***********SC = O(N*M)************
+# include<bits/stdc++.h>
+void dfs(int row, int col, vector<vector<int>> &vis, int** arr, vector<pair<int, int>> &v, int rowb, int colb, int n, int m)
+{
+   vis[row][col] = 1;
+   v.push_back({row-rowb, col-colb});
+   int delrow[] = {-1, 0, 1, 0};
+   int delcol[] = {0, -1, 0, 1};
+   for(int i=0;i<4;i++)
+   {
+         int nr = row+delrow[i];
+         int nc = col+delcol[i];
+         if(nr >= 0&& nr < n && nc >=0 && nc< m && !vis[nr][nc] && arr[nr][nc] == 1)
+         {
+              dfs(nr, nc, vis, arr, v, rowb, colb, n, m);
+         }
+   }
+}
+int distinctIslands(int** arr, int n, int m)
+{
+    vector<vector<int>> vis(n, vector<int>(m, 0));
+    set<vector<pair<int, int>>> st;
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<m;j++)
+        {
+            if(!vis[i][j] && arr[i][j] == 1)
+            {
+                 vector<pair<int, int>> v;
+                 dfs(i, j, vis, arr, v, i, j, n, m);
+                 st.insert(v);
+            }
+        }
+    }
+
+    return st.size();
+}
