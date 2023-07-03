@@ -1,0 +1,50 @@
+**********USING DFS  TRAVERSAL*****TC = O(N*N) ******SC = O(2*N)*************
+
+# include<bits/stdc++.h>
+bool dfs(int node, vector<int> &vis, vector<int>&pvis, vector<int> adj[])
+{
+    vis[node] = 1;
+    pvis[node] = 1;
+    for(auto i:adj[node])
+    {
+        if(!vis[i])
+        {
+            if(dfs(i, vis, pvis, adj) == true)
+            {
+                return true;
+            }
+        }
+        else if (pvis[i])
+        {
+            return true;
+        }
+    }
+
+    pvis[node] = 0;
+    return false;
+}
+int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
+  vector<int> adj[n+1];
+  for(int i=0;i<edges.size();i++)
+  {
+      int a = edges[i].first;
+      int b = edges[i].second;
+      adj[a].push_back(b);
+  }
+  
+  vector<int> vis(n+1, 0);
+  vector<int> pvis(n+1, 0);
+  for(int i=1;i<=n;i++)
+  {
+      if(!vis[i])
+      {
+          if(dfs(i, vis, pvis, adj) == true)
+          {
+              return true;
+          }
+      }
+  }
+
+  return false;
+
+}
