@@ -1,0 +1,118 @@
+**********APPROACH 1 USING BFS TRAVERSAL TC=O(N*N) ***SC=O(N^2+M)*************
+# include<bits/stdc++.h>
+bool check(int st, vector<int> adj[], vector<int> &color)
+{
+	queue<int> q;
+	q.push(st);
+	color[st] = 0;
+	while(!q.empty())
+	{
+		int node = q.front();
+		q.pop();
+		for(auto i:adj[node])
+		{
+			if(color[i] == -1)
+			{
+				color[i] = !color[node];
+				q.push(i);
+			}
+			else if(color[i] == color[node])
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
+}
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	int n = edges.size();
+    vector<int> adj[n];
+	 for(int i=0;i<n;i++)
+	 {
+		 for(int j=0;j<n;j++)
+		 {
+			 if(edges[i][j] ==1)
+			 {
+				 adj[i].push_back(j);
+				 adj[j].push_back(i);
+			 }
+		 }
+	 }
+
+
+	 vector<int> color(n);
+	 for(int i=0;i<n;i++)
+	 {
+		 color[i] = -1;
+	 }
+	 for(int i=0;i<n;i++)
+	 {
+		 if(color[i] == -1)
+		 {
+			 if(check(i,adj, color) == false)
+			 {
+				 return false;
+			 }
+		 }
+	 }
+
+	 return true;
+}
+
+------------------------------------------------------------------------
+
+***************USING DFS TRAVERSAL TC =O(V+2*E) SC = O(V) *****************
+
+bool dfs(int node, int color , vector<int> col, vector<int>adj[])
+{
+	col[node] = color;
+	for(auto i:adj[node])
+	{
+		if(col[i] == -1)
+		{
+			if(dfs(i, !color, col, adj) == false)
+			{
+				return false;
+			}
+		}
+		else if(col[i] == col[node])
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+bool isGraphBirpatite(vector<vector<int>> &edges) {
+	int n = edges.size();
+   vector<int> adj[n];
+   for(int i=0;i<n;i++)
+   {
+	   for(int j=0;j<n;j++)
+	   {
+		   if(edges[i][j] == 1)
+		   {
+			   adj[i].push_back(j);
+			   adj[j].push_back(i);
+		   }
+	   }
+   }
+   vector<int> col(n);
+   for(int i=0;i<n;i++)
+   {
+	   col[i] = -1;
+   }
+   for(int i=0;i<n;i++)
+   {
+	   if(col[i] == -1)
+	   {
+		  if( dfs(i, 0, col, adj) == false)
+		  {
+			  return false;
+		  }
+	   }
+   }
+
+   return true;
+}
