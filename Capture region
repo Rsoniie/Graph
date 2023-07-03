@@ -1,0 +1,63 @@
+************USING DFS (IT CAN BE SOLVED USING BFS ALSO)  TC=O(4*N*M + N+M) ****** SC =O(N*M + N*M)************
+void dfs(int r, int c, vector<vector<char>> &s, vector<vector<int>> &vis, int delrow[], int delcol[])
+{
+    vis[r][c] = 1;
+    int n = s.size();
+    int m = s[0].size();
+    for(int i=0;i<4;i++)
+    {
+        int nr = r+delrow[i];
+        int nc = c+delcol[i];
+
+        if(nr < n && nr >=0 && nc < m && nc >= 0 && !vis[nr][nc] && s[nr][nc] == 'O')
+        {
+            dfs(nr, nc, s, vis, delrow, delcol);
+        }
+    }
+}
+vector<vector<char>> captureRegion(vector<vector<char>> &s, int n, int m) 
+{
+    vector<vector<int>> vis(n, vector<int> (m, 0));
+    int delrow[] ={ 1,0,-1,0};
+    int delcol[] = {0, 1, 0, -1};
+   // for row 
+   for(int j=0;j<m;j++)
+   {
+       // for first row
+       if(!vis[0][j] && s[0][j] == 'O')
+       {
+           dfs(0, j, s, vis , delrow, delcol);
+       }
+       if(!vis[n-1][j] && s[n-1][j] == 'O')
+       {
+           dfs(n-1 , j, s, vis, delrow, delcol);
+       }
+   }
+
+   for(int i=0;i<n;i++)
+   {
+       //firsr col
+       if(!vis[i][0] && s[i][0] == 'O')
+       {
+           dfs(i, 0, s, vis, delrow, delcol);
+       }
+
+       if(!vis[i][m-1] && s[i][m-1] == 'O')
+       {
+           dfs(i, m-1, s, vis, delrow, delcol);
+       }
+   }
+
+   for(int i=0;i<n;i++)
+   {
+       for(int j=0;j<m;j++)
+       {
+           if(!vis[i][j] && s[i][j] == 'O')
+           {
+               s[i][j] = 'X';
+           }
+       }
+   }
+
+   return s;
+}
