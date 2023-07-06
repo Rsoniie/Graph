@@ -1,0 +1,53 @@
+*************USING TOPOSORT*****TC = O() SC = O()********
+#include <bits/stdc++.h> 
+bool prerequisiteTask(vector<vector<int>>& dependency, int n, int m) {
+    vector<int> adj[n+1];
+    for(int i=0;i<dependency.size();i++)
+    {
+        int a = dependency[i][0];
+        int b = dependency[i][1];
+        adj[a].push_back(b);
+    }
+    vector<int> ind(n+1, 0);
+    for(int i=1;i<=n;i++)
+    {
+        for(auto it:adj[i])
+        {
+            ind[it]++;
+        }
+    }
+
+    int cnt=0;
+    queue<int> q;
+    for(int i=1;i<=n;i++)
+    {
+        if(ind[i] == 0)
+        {
+            q.push(i);
+        }
+    }
+
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        cnt++;
+        for(auto i:adj[node])
+        {
+            ind[i]--;
+            if(ind[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+    }
+
+    if(cnt == n)
+    {
+        return true;
+    }
+    return false;
+}
+--------------------------------------------------------------
+
+**********ONLY WE HAVE TO CHECK THAT GRAPH IS CYCLIC OR NOT************
