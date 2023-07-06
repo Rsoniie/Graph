@@ -48,3 +48,11 @@ int detectCycleInDirectedGraph(int n, vector < pair < int, int >> & edges) {
   return false;
 
 }
+
+
+--------------------------------------------------------------------
+*******************************************************
+
+USING TOPO SORT IF SIZE OF TOPO SORT IS EQUAL TO ALL VERTEX THEN YES ELSE NO*****
+
+
