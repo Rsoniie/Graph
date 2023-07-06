@@ -1,0 +1,114 @@
+*********USING TOPO SORT*****TC  O(V+E) ******SC = O(N)*******
+IF ALL ARE MATCHING AND LARGER STRING IS BEFORE SMALLER STRING THEN NOT POSSIBLE OR IF THERE IS CYCLIC DEPENDENCY THEN NOT POSSIBLE
+# include<bits/stdc++.h>
+/*vector<int> tsort(int n, vector<int> adj[])
+{
+    vector<int> ind(n, 0);
+    for(int i=0;i<n;i++)
+    {
+        for(auto it:adj[i])
+        {
+            ind[it]++;
+        }
+    }
+
+    queue<int> q;
+    for(int i=0;i<n;i++)
+    {
+        if(ind[i] == 0)
+        {
+            q.push(i);
+        }
+    }
+
+    vector<int> res;
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        res.push_back(node);
+        for(auto i:adj[node])
+        {
+            ind[i]--;
+            if(ind[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+    }
+
+    return res;
+}*/
+vector<char> getAlienLanguage(string* dictionary, int n)
+{
+    unordered_set<char> st;
+    for(int i=0;i<n;i++)
+    {
+        string s = dictionary[i];
+        for(int i=0;i<s.size();i++)
+        {
+            st.insert(s[i]);
+        }
+    }
+
+    int len = st.;
+    vector<int> adj[len];
+    for(int i=0;i<n-1;i++)
+    {
+        string s1= dictionary[i];
+        string s2 = dictionary[i+1];
+        for(int j=0;j<min(s1.size(), s2.size());j++)
+        {
+            if(s1[j] != s2[j])
+            {
+                adj[s1[j]-'a'].push_back(s2[j]-'a');
+                break;
+            }
+        }
+    }
+    vector<int> ind(len, 0);
+    for(int i=0;i<len;i++)
+    {
+        for(auto it:adj[i])
+        {
+            ind[it]++;
+        }
+    }
+
+    queue<int> q;
+    for(int i=0;i<len;i++)
+    {
+        if(ind[i] == 0)
+        {
+            q.push(i);
+        }
+    }
+
+    vector<int> res;
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        res.push_back(node);
+        for(auto i:adj[node])
+        {
+            ind[i]--;
+            if(ind[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+    }
+
+   // vector<int> topo = tsort(len, adj);
+
+    vector<char> v;
+    for(int i=0;i<len;i++)
+    {
+        char  x = res[i]+'a';
+        v.push_back(x);
+    }
+
+    return v;
+    
+}
