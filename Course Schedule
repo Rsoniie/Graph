@@ -1,0 +1,52 @@
+******USING TOPO SORT****
+#include <bits/stdc++.h> 
+string canFinish(vector<vector<int>>&arr, int n, int m)
+{
+    vector<int> adj[n+1];
+    for(int i=0;i<m;i++)
+    {
+        int a = arr[i][0];
+        int b = arr[i][1];
+        adj[b].push_back(a);
+    }
+
+    vector<int> ind(n+1, 0);
+    for(int i=1;i<=n;i++)
+    {
+        for(auto it:adj[i])
+        {
+            ind[it]++;
+        }
+    }
+    queue<int> q;
+    for(int i=1;i<=n;i++)
+    {
+        if(ind[i] == 0)
+        {
+            q.push(i);
+        }
+    }
+
+    int cnt=0;
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        cnt++;
+
+        for(auto i:adj[node])
+        {
+            ind[i]--;
+            if(ind[i] == 0)
+            {
+                q.push(i);
+            }
+        }
+    }
+
+    if (cnt == n) {
+      return "Yes";
+    }
+
+    return "No";
+}
