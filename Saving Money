@@ -1,0 +1,41 @@
+*********USING DJISKTRA ALGORITHM*****TC = O(ELOGV) ******* SC =O(E)*********
+#include <bits/stdc++.h> 
+int savingMoney(int n, int source, int destination, int K, vector<vector<int>>& trains)
+{
+	vector<pair<int, int>> adj[n];
+	for(auto i:trains)
+	{
+		adj[i[0]].push_back({i[1], i[2]});
+	}
+	queue<pair<int, pair<int,int>>> q;
+	vector<int> dis(n, 1e9);
+	dis[source] = 0;
+	q.push({0, {source, 0}});
+
+	while(!q.empty())
+	{
+		auto it = q.front();
+		q.pop();
+		int stop = it.first;
+		int node = it.second.first;
+		int dist = it.second.second;
+		if(stop > K) continue;
+
+		for(auto it:adj[node])
+		{
+			int nnode = it.first;
+			int ndis = it.second;
+			if(dist+ndis < dis[nnode] && stop <= K)
+			{
+				dis[nnode] = dist+ndis;
+				q.push({stop+1, {nnode, dist+ndis}});
+			}
+		}
+	}
+    if(dis[destination] == 1e9)
+	{
+		return -1;
+	}
+	return dis[destination];
+	
+}
