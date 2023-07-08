@@ -1,0 +1,51 @@
+***********USING BFS TRAVERSAL TC = O(N+E) ****SC = O(N+E)*********
+
+SO BFS TRAVERSAL IS ALWAYS FIND A MINIMUM DISTANCE  BETWEEN ANY TWO NODES
+
+
+vector<int> shortestPath( vector<pair<int,int>> edges , int n , int m, int s , int t){
+	// making adj list
+    vector<int> adj[n+1];
+    for(int i=0;i<edges.size();i++)
+    {
+        int a  = edges[i].first;
+        int b = edges[i].second;
+        adj[a].push_back(b);
+        adj[b].push_back(a);
+    }
+
+    vector<int> par(n+1);
+    par[s] = -1;
+    vector<int> vis(n+1, 0);
+    queue<int> q;
+    q.push(s);
+    vis[s] = 1;
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        vis[node] = 1;
+        for(auto i:adj[node])
+        {
+            if(!vis[i])
+            {
+                vis[i] = 1;
+                par[i] = node;
+                q.push(i);
+            }
+        }
+    }
+    vector<int> ans;
+    int currnode = t;
+    ans.push_back(currnode);
+    while(currnode != s)
+    {
+        currnode = par[currnode];
+        ans.push_back(currnode);
+    }
+
+    reverse(ans.begin(), ans.end());
+    return ans;
+    
+	
+}
