@@ -1,0 +1,73 @@
+*********USING BIPARTITE ALGO AND BFS TRAVERSAL******TC=O(2*ELOGV) ******SC =O(3*V)***************
+
+bool check(int st, vector<int> adj[], vector<int>&color)
+{
+    color[st]=0;
+    queue<int> q;
+    q.push(st);
+    while(!q.empty())
+    {
+        int node = q.front();
+        q.pop();
+        for(auto i:adj[node])
+        {
+                if(color[i] == -1)
+                {
+                    color[i] = !color[node];
+                    q.push(i);
+                }
+                else if(color[i] == color[node])
+                {
+                    return false;
+                }
+        }
+    }
+
+    return true;
+}
+string graphColoring(vector<vector<int>> &mat, int m) {
+    int n = mat.size();
+    vector<int> adj[n];
+    for(int i=0;i<n;i++)
+    {
+        for(int j=0;j<n;j++)
+        {
+            if(mat[i][j] == 1)
+            {
+                adj[i].push_back(j);
+                adj[j].push_back(i);
+            }
+        }
+    }
+
+    if(m == 1)
+    {
+        return "NO";
+    }
+    if(m==2)
+    {
+        vector<int> color(n, -1);
+
+        bool c = true;
+        for(int i=0;i<n;i++)
+        {
+            if(color[i] == -1)
+            {
+                if(check(i, adj, color) == false)
+                {
+                    c = false;
+                    break;
+                }
+            }
+        }
+        if(c == true)
+        {
+            return "YES";
+        }
+        else 
+        {
+            return "NO";
+        }
+    }
+    return "YES";
+}
