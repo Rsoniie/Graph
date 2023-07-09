@@ -1,0 +1,29 @@
+*******FOR FINDING SHORTEST PATH WITH NEGATIVE WEIGHTS*****TC = O(N^3)  ****SC = O(N^2)***********
+int floydWarshall(int n, int m, int src, int dest, vector<vector<int>> &edges) {
+    vector<vector<int>> path(n+1, vector<int>(n+1, 1e9));
+    for(int i=1;i<=n;i++)
+    {
+      path[i][i] = 0;
+    }
+    for(int i=0;i<m;i++)
+    {
+        int a = edges[i][0];
+        int b = edges[i][1];
+        int c = edges[i][2];
+        path[a][b] = c;
+    }
+    for(int k=1;k<=n;k++)
+    {
+        for(int i=1;i<=n;i++)
+        {
+            for(int j=1;j<=n;j++)
+            {
+              if (path[i][k] != 1e9 && path[k][j] != 1e9) {
+                path[i][j] = min(path[i][j], (path[i][k] + path[k][j]));
+              }
+            }
+        }
+    }
+
+    return path[src][dest];
+}
