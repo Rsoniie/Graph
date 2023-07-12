@@ -1,0 +1,56 @@
+********USING DFS TRAVERSAL *****
+void dfs(int node, vector<int>&vis, vector<int> adj[], int &cnt)
+{
+	vis[node] = 1;
+	cnt++;
+	for(auto i:adj[node])
+	{
+		if(!vis[i])
+		{
+			dfs(i, vis, adj, cnt);
+		}
+	}
+}
+int countWays(int n, vector<vector<int>> &fruitIds)
+{
+	vector<int> adj[n];
+	for(int i=0;i<fruitIds.size();i++)
+	{
+		int u = fruitIds[i][0];
+		int v = fruitIds[i][1];
+		adj[u].push_back(v);
+		adj[v].push_back(u);
+	}
+	vector<int> c;
+	vector<int> vis(n, 0);
+	for(int i=0;i<n;i++)
+	{
+		//int cnt = 0;
+        if(!vis[i])
+		{
+			int cnt = 0;
+			dfs(i, vis, adj, cnt);
+			c.push_back(cnt);
+		}
+	}
+   int ans = 0 ;
+   int sum = 0;
+   for(int i=0;i<c.size();i++)
+   {
+	   sum+=c[i];
+   }
+   for(int i=0;i<c.size()-1;i++)
+   {
+	   ans += (c[i]*(sum - c[i]));
+	   sum = sum - c[i];
+   }
+
+  /* for(auto i:c)
+   {
+	   cout<<i<<" ";
+   }
+   cout<<endl;*/
+
+   return ans;
+
+}
