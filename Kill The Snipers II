@@ -1,0 +1,60 @@
+**********USING TOPO SORT AND COMMON SENSE*********TC =O (N*N) *******SC = O(N)*********
+#include <bits/stdc++.h> 
+void dfs(int node,stack<int>&st,  vector<int>&vis, vector<int> adj[])
+{
+    vis[node]= 1;
+    for(auto i:adj[node])
+    {
+        if(!vis[i])
+        {
+            dfs(i, st, vis, adj);
+        }
+    }
+    st.push(node);
+}
+vector<int> minTime(int n, int m, vector<vector<int>> &edges)
+{
+    vector<int> adj[n];
+    for(int i=0;i<m;i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj[u].push_back(v);
+    }
+    vector<int> topo;
+    stack<int>st;
+    vector<int> vis(n,0);
+    for(int i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            dfs(i, st, vis, adj);
+        }
+    }
+
+    while(!st.empty())
+    {
+        topo.push_back(st.top());
+        st.pop();
+    }
+
+    vector<int> ans(n,0);
+    for(int i=0;i<n;i++)
+    {
+        int x = topo[i];
+        for(auto it:adj[x])
+        {
+            ans[it] = max(ans[it], ans[x]+1);
+        }
+    }
+
+    for(int i=0;i<n;i++)
+    {
+        ans[i] = ans[i]+1;
+    }
+
+    return ans;
+    
+
+    
+}
