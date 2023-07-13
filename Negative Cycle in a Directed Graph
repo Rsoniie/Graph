@@ -1,0 +1,35 @@
+***********USING BELLMAN FORD UPDATE DIS FOR N-1 TIMES AND THEN AGAIN CHECK FOR LAST TIME UPDATION IF LAST TIME DIS UPDATED THEN NEGATIVE CYCLE PRESENT******
+#include <bits/stdc++.h> 
+bool detectNegativeCycle(int n, int m, vector<vector<int>> &edges)
+{
+	// using bellmann ford algorithm..
+	vector<int> dis(n+1, 1e9);
+	for(int i=1;i<=n;i++)
+	{
+		for(int j=0;j<m;j++)
+		{
+			int u = edges[j][0];
+			int v = edges[j][1];
+			int w = edges[j][2];
+			if( w + dis[u] < dis[v])
+			{
+				dis[v] = dis[u]+w;
+			}
+
+
+		}
+	}
+	for(int j=0;j<m;j++)
+	{
+			int u = edges[j][0];
+			int v = edges[j][1];
+			int w = edges[j][2];
+			if(w + dis[u] < dis[v])
+			{
+				return true;
+			}
+	}
+
+	return false;
+	
+}
