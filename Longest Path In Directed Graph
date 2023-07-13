@@ -36,3 +36,68 @@ vector<int> findMaxDistances(int n, int src, vector<vector<int>> &edges) {
     return dis;
 
 }
+
+
+
+******************************USING TOPOSORT TECHNIQUE*****TC = (N+E) *************
+
+#include <bits/stdc++.h> 
+void toposort(int node, stack<int>&st, vector<int>&vis, vector<pair<int,int>> adj[])
+{
+    vis[node] = 1;
+    for(auto i:adj[node])
+    {
+        if(!vis[i.first])
+        {
+            toposort(i.first, st, vis, adj);
+        }
+    }
+
+    st.push(node);
+}
+vector<int> findMaxDistances(int n, int src, vector<vector<int>> &edges) {
+    vector<pair<int,int>> adj[n];
+    for(int i=0;i<edges.size();i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+        int w = edges[i][2];
+        adj[u].push_back({v,w});
+        
+    }
+
+    stack<int> st;
+    vector<int> vis(n, 0);
+    for(int i=0;i<n;i++)
+    {
+        if(!vis[i])
+        {
+            toposort(i, st, vis,adj);
+        }
+    }
+    vector<int> topo;
+    while(!st.empty())
+    {
+        topo.push_back(st.top());
+        st.pop();
+    }
+
+    vector<int> dis(n, -1);
+    dis[src] = 0;
+    for(int i=0;i<n;i++)
+    {
+        int curr = topo[i];
+        if(dis[curr] == -1)
+        {
+            continue;
+        }
+
+        for(auto it:adj[curr])
+        {
+            int nnode = it.first;
+            dis[nnode] = max(dis[nnode], dis[curr]+it.second);
+        }
+    }
+
+    return dis;
+}
