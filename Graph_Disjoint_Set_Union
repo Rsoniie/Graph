@@ -75,3 +75,103 @@ int main()
     cout<<"No"<<endl;
    }
 }
+**********BY USING SIZE INSTEAD OF RANK*********************
+# include<bits/stdc++.h>
+using namespace std;
+class Disjointset {
+    vector<int> rank, par, size;
+    public:
+    Disjointset(int n)
+    {
+        rank.resize(n+1, 0);
+        par.resize(n+1);
+        size.resize(n+1);
+        for(int i=0;i<=n;i++)
+        {
+            par[i] = i;
+            size[i] = 1;
+        }
+    }
+
+    int findup(int node)
+    {
+        if(node == par[node])
+        {
+            return node;
+        }
+
+        return  par[node] = findup(par[node]);
+    }
+    void unionbyrank(int u, int v)
+    {
+        int up_u = findup(u);
+        int up_v = findup(v);
+        if(up_u == up_v)
+        {
+            return ;
+        }
+
+        if(rank[up_u] < rank[up_v])
+        {
+            par[up_u] = up_v;
+        }
+        else if(rank[up_v] < rank[up_u])
+        {
+            par[up_v] = up_u;
+        }
+
+        else 
+        {
+            par[up_v] = up_u;
+            rank[up_u]++;
+        }
+
+
+    }
+
+    void unionbysize(int u, int v)
+    {
+        int up_u = findup(u);
+        int up_v = findup(v);
+        if(up_u == up_v)
+        {
+            return ;
+        }
+
+         if(size[up_u] < size[up_v])
+         {
+            par[up_u] = up_v;
+            size[up_v] += size[up_u];
+         }
+         else 
+         {
+            par[up_v] = up_u;
+            size[up_u] += size[up_v];
+         }
+    }
+    
+};
+int main()
+{
+   Disjointset ds(7);
+   ds.unionbysize(1,2);
+   ds.unionbysize(2,3);
+   ds.unionbysize(4,5);
+   ds.unionbysize(6,7);
+   ds.unionbysize(5,6);
+   if(ds.findup(3) == ds.findup(7))
+   {
+    cout<<"Same"<<endl;
+   }
+   else{
+    cout<<"No"<<endl;
+   }
+   ds.unionbysize(3,7);
+    if(ds.findup(3) == ds.findup(7))
+   {
+    cout<<"Same"<<endl;
+   }
+   else{
+    cout<<"No"<<endl;
+   }
+}
