@@ -1,0 +1,77 @@
+********KOSARAJU ALGORITHM*****TC=O(N+E) *******SC = O(N+E)******************
+# include<bits/stdc++.h>
+void dfs(int node, vector<int> &vis, stack<int>&st, vector<int> adj[])
+{
+	vis[node] = 1;
+	for(auto i:adj[node])
+	{
+		if(!vis[i])
+		{
+			dfs(i, vis, st, adj);
+		}
+	}
+
+	st.push(node);
+}
+void dfsf(int node, vector<int> &vis, vector<int> adj[])
+{
+	vis[node] = 1;
+	for(auto i:adj[node])
+	{
+		if(!vis[i])
+		{
+			dfsf(i, vis, adj);
+		}
+	}
+}
+int stronglyConnectedComponents(int v, vector<vector<int>> &edges)
+{
+   // three step process short all according to topological sort
+   // transpose given graph..
+   //apply dfs to topological sort
+
+   // topo sort..
+   vector<int> adj[v];
+   for(int i=0;i<edges.size();i++)
+   {
+	   int u = edges[i][0];
+	   int v = edges[i][1];
+
+	   adj[u].push_back(v);
+   }
+
+   vector<int> vis(v, 0);
+   stack<int> st;
+   for(int i=0;i<v;i++)
+   {
+	   if(!vis[i])
+	   {
+		   dfs(i, vis, st, adj);
+	   }
+   }
+   // transpose 
+   vector<int> adjt[v];
+   for(int i=0;i<v;i++)
+   {
+	   vis[i] = 0;
+	   for(auto it:adj[i])
+	   {
+		   adjt[it].push_back(i);
+	   }
+   }
+   // dfs using above ordering 
+   int cnt=0;
+   while(!st.empty())
+   {
+	   int no = st.top();
+	   st.pop();
+	   if(!vis[no])
+	   {
+		   cnt++;
+		   dfsf(no, vis, adjt);
+	   }
+   }
+
+   return cnt;
+   
+}
