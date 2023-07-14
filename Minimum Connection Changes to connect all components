@@ -1,0 +1,85 @@
+*************USING DISJOINT FUNCTIONS***********TC = O(N+NLOGN) *********SC = O(N)*********
+#include <bits/stdc++.h> 
+void makeset(vector<int>&par, vector<int>&rank, int n)
+{
+    for(int i=1;i<=n;i++)
+    {
+          rank[i] = 0;
+          par[i] = i;
+    }
+}
+
+int findpar(vector<int>&par, int node)
+{
+    if(par[node] == node)
+    {
+        return node;
+
+    }
+
+    return par[node] = findpar(par, par[node]);
+}
+
+void unionset(int u,int v, vector<int>&par, vector<int>&rank)
+{
+    u = findpar(par, u);
+    v = findpar(par, v);
+    if(rank[u] < rank[v])
+    {
+        par[u] = v;
+    }
+    else if(rank[v] < rank[u])
+    {
+        par[v] = u;
+    }
+    else 
+    {
+         par[v] = u;
+         rank[u]++;
+    }
+
+}
+int minConnectionChanges(int n, vector<vector<int>> &wires)
+{
+	vector<int>par(n+1);
+    vector<int>rank(n+1);
+    makeset(par, rank, n);
+     int extra=0;
+     int cnt = 0;
+      //  bool check = false;
+
+    for(int i=0;i<wires.size();i++)
+    {
+        int u = wires[i][0];
+        int v = wires[i][1];
+       
+        if(findpar(par, u) == findpar(par, v))
+        {
+             extra++;
+        }
+        else 
+        {
+           unionset(u, v, par, rank);
+        }
+    }
+    for(int i=1;i<=n;i++)
+    {
+        if(par[i] == i)
+        {
+            cnt++;
+        }
+    }
+
+    int ans = cnt - 1;
+    if(cnt == 0)
+    {
+        return 0;
+    }
+    
+    if(extra >= ans)
+    {
+        return ans;
+    }
+    return -1;
+    
+}
