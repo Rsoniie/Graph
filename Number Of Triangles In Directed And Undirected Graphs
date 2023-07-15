@@ -1,0 +1,55 @@
+**********BRUTE FORCE APPROACH TC = O(N^3)*******SC = 0(N^2)***********
+#include <bits/stdc++.h> 
+vector<int> countTriangles(int v1, vector<vector<int>>& edgeListOfDirectedGraph, int v2,
+			vector<vector<int>>& edgeListOfUnDirectedGraph) {
+	vector<vector<int>> dir(v1, vector<int>(v1,0));
+	vector<vector<int>> undir(v2, vector<int>(v2,0));
+	for(int i=0;i<edgeListOfDirectedGraph.size();i++)
+	{
+		int u =  edgeListOfDirectedGraph[i][0];
+		int v = edgeListOfDirectedGraph[i][1];
+		dir[u][v] = 1;
+	}
+	for(int i=0;i<edgeListOfUnDirectedGraph.size();i++)
+	{
+		int u =  edgeListOfUnDirectedGraph[i][0];
+		int v = edgeListOfUnDirectedGraph[i][1];
+		undir[u][v] = 1;
+		undir[v][u] = 1;
+	}
+	int cntdir = 0;
+	for(int i=0;i<v1;i++)
+	{
+		for(int j=0;j<v1;j++)
+		{
+			for(int k=0;k<v1;k++)
+			{
+				if(dir[i][j] && dir[j][k] && dir[k][i])
+				{
+					cntdir++;
+				}
+			}
+		}
+	}
+	int cntundir = 0;
+	for(int i=0;i<v2;i++)
+	{
+		for(int j=0;j<v2;j++)
+		{
+			for(int k=0;k<v2;k++)
+			{
+				if(undir[i][j] && undir[j][k] && undir[k][i])
+				{
+					cntundir++;
+				}
+			}
+		}
+	}
+
+	vector<int> ans;
+	ans.push_back(cntdir/3);
+	ans.push_back(cntundir/6);
+	return ans;
+
+
+}
