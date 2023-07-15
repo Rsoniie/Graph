@@ -1,0 +1,63 @@
+***********USING DFS TRAVERSAL ********TC = O(N+E)************SC = O(N)******************************
+# include<bits/stdc++.h>
+void dfs(int node, int par, int &timer, vector<int>&low, vector<int>&disc,
+ vector<int>&vis, vector<int> adj[], vector<vector<int>> &ans )
+ {
+     vis[node] = 1;
+     disc[node] = low[node] = timer++;
+
+
+     for(auto it:adj[node])
+     {
+
+         if(it == par)
+         {
+             continue;
+         }
+         if(!vis[it])
+         {
+            dfs(it, node, timer, low, disc, vis, adj, ans);
+            low[node] = min(low[node], low[it]);
+            if(low[it] > disc[node])
+            {
+                vector<int> res;
+                res.push_back(node);
+                res.push_back(it);
+                ans.push_back(res);
+            }
+         }
+         else 
+         {
+             low[node] = min(low[node], disc[it]);
+         }
+     }
+ }
+vector<vector<int>> findBridges(vector<vector<int>> &edges, int v, int e) {
+    // step 1 adjacency list
+
+    vector<int> adj[v];
+    for(int i=0;i<edges.size();i++)
+    {
+        int u = edges[i][0];
+        int v = edges[i][1];
+        adj[u].push_back(v);
+        adj[v].push_back(u);
+    }
+
+    vector<int> vis(v, 0);
+    int par =  -1;
+    vector<int> low(v, -1);
+    vector<int> disc(v, -1);
+    int timer = 0;
+    vector<vector<int>> ans;
+    for(int i=0;i<v;i++)
+    {
+        if(!vis[i])
+        {
+            dfs(i, par,timer, low, disc, vis, adj, ans);
+        }
+    }
+
+    return ans;
+
+}
