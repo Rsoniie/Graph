@@ -1,0 +1,119 @@
+**********USING BFS*****TC = O(6*max(M,N)*******SC = O(6*MAX(M,N)**************
+#include <bits/stdc++.h> 
+int ninjaAndVessels(int m, int n, int w) {
+	priority_queue<pair<int, pair<int,int>>, vector<pair<int, 
+	pair<int,int>>>, greater<pair<int,pair<int,int>>>> pq;
+	//queue<pair<int,pair<int,int>>> pq;
+	pq.push({0, {0,0}});
+	map<pair<int,int>, bool> mm;
+	mm[{0,0}] = true;
+
+	while(!pq.empty())
+	{
+		int step = pq.top().first;
+		int x = pq.top().second.first;
+		int y = pq.top().second.second;
+		if(x > m && y > n)
+		{
+			return -1;
+		}
+		pq.pop();
+		int nx = 0;
+		int ny = y;
+		
+		if(mm.find({nx, ny}) == mm.end() && nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w)
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			
+			mm[{nx, ny}] = true;
+			
+		}
+		nx = x;
+		ny = 0;
+		if(mm.find({nx, ny}) == mm.end() && nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w)
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			mm[{nx, ny}] = true;
+		}
+		nx = m;
+		ny = y;
+		if(mm.find({nx, ny}) == mm.end() && nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w )
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			mm[{nx, ny}] = true;
+		}
+		nx = x;
+		ny = n;
+		if(mm.find({nx, ny}) == mm.end() && nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w )
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			mm[{nx, ny}] = true;
+		}
+		nx = min(x+y, m);
+		ny = max(0, x+y-m);
+		if(mm.find({nx, ny}) == mm.end()&& nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w)
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			mm[{nx, ny}] = true;
+		}
+		nx = max(0,x+y-n);
+		ny = min(x+y, n);
+		if(mm.find({nx, ny}) == mm.end() && nx <= m && ny <= n)
+		{
+			if(nx == w || ny == w)
+			{
+				return 1+step;
+			}
+			if(nx+ny == w)
+			{
+				return 2+step;
+			}
+			pq.push({1+step, {nx, ny}});
+			mm[{nx, ny}] = true;
+		}
+		
+		
+	}
+
+	return -1;
+}
