@@ -1,0 +1,5 @@
+********FOR A COMPELETE GRAPH NO OF TOTAL SPANNING TREE IS -> N^(N-2)******N == VERTEX******* THIS IS KNOWN AS CAYLEY'S FORMULA**********************
+-----------------------------------------------------------------------------------------------------------------------------------------------------
+***********FOR INCOMPELETE GRAPH WE USE TWO APPROACHES APPROACH 1 USING RECURSSION HAVING HIGH COMPLEXITY**************
+*************APPROACH 2 USING KIRCHOFF'S MATRIX LAW****************OR MATRIX KIRCHOFF'S ALGORITHM*******************POLYNOMIAL TIME COMPLEXITY********
+
